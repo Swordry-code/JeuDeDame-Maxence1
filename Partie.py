@@ -9,14 +9,14 @@ class Partie:
         for i in range(len(self.plateau)):
             print("  -----------------------------------------  ", end="")
             if i == 0:
-                print(compteur1, end="")
+                print(compteur2, end="")
             print("")
             print(i, " ", end="", sep="")
             for j in range(len(self.plateau[i])):
                 print('|'+self.plateau[i][j], end="")
     
             print("|")
-        print("  -----------------------------------------  ", compteur2)                                                                                                                                                                  
+        print("  -----------------------------------------  ", compteur1)                                                                                                                                                                  
 
     def regles(self):
 
@@ -25,5 +25,7 @@ class Partie:
 
     def gagne(self, compteur):
 
-        if compteur == 20:
+        if compteur >= 20:
+
             self.fin = True
+            print("aaaaaa")

@@ -12,6 +12,7 @@ class Equipe(Partie):
         
         self.move()
         replit.clear()
+        self.partie.gagne(self.compteur)
         
 
 
@@ -103,5 +104,6 @@ class Equipe(Partie):
 
         self.partie.plateau[chiffre2][lettre2] = self.symbole
         self.partie.plateau[chiffre][lettre] = "   "
+        print("Les", self.couleur, "ont gagnés")
         
             
