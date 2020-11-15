@@ -12,12 +12,14 @@ class Equipe(Partie):
         
         self.move()
         replit.clear()
-        self.partie.gagne(self.compteur)
+        self.partie.gagne(self.compteur, self.couleur)
         
 
 
     def demande(self):
         '''Demande à l'utilisateur la case du pion qu'il veut déplacer et renvoie deux entiers'''
+
+        print("Aux", self.couleur, "de jouer !")
 
         liste = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         
@@ -104,6 +106,5 @@ class Equipe(Partie):
 
         self.partie.plateau[chiffre2][lettre2] = self.symbole
         self.partie.plateau[chiffre][lettre] = "   "
-        print("Les", self.couleur, "ont gagnés")
         
             
