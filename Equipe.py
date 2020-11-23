@@ -12,6 +12,7 @@ class Equipe(Partie):
         '''Fonction qui se charge d'appeller les autres fonctions nécessaires pour faire avancer le jeu'''
         
         self.move()
+        self.actualiserCompteur()
         self.partie.gagne(self.compteur, self.couleur)
         
 
@@ -132,11 +133,16 @@ class Equipe(Partie):
             while 1:
                 try:
                     lettre2 = input("Colonne du déplacement (Lettre) : ").upper()
+                    if lettre2 == "ANNULER":
+                        chiffre, lettre = self.demande()
+                        noMessage = True
                     lettre2 = liste.index(lettre2)
                     break
 
                 except:
-                    print("Cette colonne n'existe pas !")
+                    if noMessage == False:
+                        print("Cette colonne n'existe pas !")
+                
 
             #On assigne une valeur a chiffre2 pour rentrer dans la boucle une 1ere fois
             chiffre2 = -1
@@ -155,32 +161,37 @@ class Equipe(Partie):
                 diffChiffre = int((chiffre2 - chiffre) / 2)
                 diffLettre = int((lettre2 - lettre) / 2)
 
-                if self.couleur == "blancs":
-                    if (chiffre2 == chiffre-1) and (lettre2 == lettre+1 or lettre2 == lettre-1):
+                #Bug ca rentre dans la cond
+                if diffChiffre != 1 and diffChiffre != -1:
+                    if self.couleur == "blancs":
+                        print("Im here")
+                        print(diffChiffre)
+                        if (chiffre2 == chiffre-1) and (lettre2 == lettre+1 or lettre2 == lettre-1):
 
-                        pouvaisSauter = self.soufflerPasJouer(chiffre, lettre)
-                        if pouvaisSauter == True:
-                            print("Tu pouvais sauter !")
+                            pouvaisSauter = self.soufflerPasJouer(chiffre, lettre)
+                            if pouvaisSauter == True:
+                                print("Tu pouvais sauter !")
 
-                        bonneCaseSelect = True
-                    else:
-                        print("Vous ne pouvez pas aller en arrière")
+                            bonneCaseSelect = True
+                        else:
+                            print("Vous ne pouvez pas aller en arrière")
 
-                elif self.couleur == "noirs":
-                    if (chiffre2 == chiffre+1) and (lettre2 == lettre+1 or lettre2 == lettre-1):
+                    elif self.couleur == "noirs":
+                        print("Im here")
+                        if (chiffre2 == chiffre+1) and (lettre2 == lettre+1 or lettre2 == lettre-1):
 
-                        pouvaisSauter = self.soufflerPasJouer(chiffre, lettre)
-                        if pouvaisSauter == True:
-                            print("Tu pouvais sauter !")
+                            pouvaisSauter = self.soufflerPasJouer(chiffre, lettre)
+                            if pouvaisSauter == True:
+                                print("Tu pouvais sauter !")
 
-                        bonneCaseSelect = True
-                    else:
-                        print("Vous ne pouvez pas aller en arrière")
+                            bonneCaseSelect = True
+                        else:
+                            print("Vous ne pouvez pas aller en arrière")
 
                 elif (chiffre2 == chiffre+2 or chiffre2 == chiffre-2 and lettre2 == lettre+2 or lettre2 == lettre-2) and self.partie.plateau[chiffre + diffChiffre][lettre + diffLettre] != "   " and self.partie.plateau[chiffre + diffChiffre][lettre + diffLettre] != self.symbole:
+                    print("je suis la")
 
                     self.partie.plateau[chiffre + diffChiffre][lettre + diffLettre] = "   "
-                    self.compteur += 1
                     bonneCaseSelect = True
                     enTrainDeSauter = True
 
@@ -191,7 +202,7 @@ class Equipe(Partie):
 
         if pouvaisSauter:
             self.partie.plateau[chiffre][lettre] = "   "
-            self.partie.compteurARetenir = 1
+            print("Ton pion est supprimé")
 
 
         else:
@@ -205,12 +216,25 @@ class Equipe(Partie):
         
             if (self.partie.plateau[chiffre+1][lettre+1] != self.symbole and self.partie.plateau[chiffre+1][lettre+1] != "   ") and self.partie.plateau[chiffre+2][lettre+2] == "   ":
                 print("Tu pouvais sauter")
+                return True
             
             elif (self.partie.plateau[chiffre+1][lettre-1] != self.symbole and self.partie.plateau[chiffre+1][lettre-1] != "   ") and self.partie.plateau[chiffre+2][lettre-2] == "   ":
                 print("Tu pouvais sauter")
+                return True
             
             elif (self.partie.plateau[chiffre-1][lettre+1] != self.symbole and self.partie.plateau[chiffre-1][lettre+1] != "   ") and self.partie.plateau[chiffre-2][lettre+2] == "   ":
                 print("Tu pouvais sauter")
+                return True
             
             elif (self.partie.plateau[chiffre-1][lettre-1] != self.symbole and self.partie.plateau[chiffre-1][lettre-1] != "   ") and self.partie.plateau[chiffre-2][lettre-2] == "   ":
                 print("Tu pouvais sauter")
+                return True
+
+    def actualiserCompteur(self):
+        for elt in self.partie.plateau:
+            for sousElt in elt:
+                if sousElt != self.symbole and sousElt != "   ":
+                    print("mtn")
+                    self.compteur += 1
+        
+        self.compteur = 20 - self.compteur

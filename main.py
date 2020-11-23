@@ -2,7 +2,7 @@ from Equipe import Equipe, Partie, replit
 
 partie = Partie()
 
-noir = Equipe(partie, "noirs", " o ", 19)
+noir = Equipe(partie, "noirs", " o ")
 blanc = Equipe(partie, "blancs", " ● ")
 
 partie.regles()
